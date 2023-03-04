@@ -3,8 +3,8 @@ package org.springframework.samples.petclinic.security;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 /**
  * Starting from Spring Boot 2, if Spring Security is present, endpoints are secured by default
@@ -15,14 +15,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DisableSecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
         // @formatter:off
         http
-            .authorizeHttpRequests((authz) -> authz
-               .anyRequest().permitAll()
-            )
+            .authorizeExchange((authz) -> authz
+                .anyExchange().permitAll()
+            .and()
             .csrf()
-                .disable();
+                .disable());
         // @formatter:on
         return http.build();
     }

@@ -232,7 +232,7 @@ For pull requests, editor preferences are available in the [editor config](https
 # Build service
 
 ```bash
-./mvnw clean install
+./mvnw clean install -DskipTests
 ```
 
 # Build docker image

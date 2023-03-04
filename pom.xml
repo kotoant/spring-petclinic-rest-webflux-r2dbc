@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -244,7 +244,7 @@
                         <image>eclipse-temurin:19-jre</image>
                     </from>
                     <to>
-                        <image>kotoant/spring-petclinic-rest-webmvc-jdbc</image>
+                        <image>kotoant/spring-petclinic-rest-webflux-jdbc</image>
                     </to>
                     <container>
                         <mainClass>org.springframework.samples.petclinic.PetClinicApplication</mainClass>
@@ -281,7 +281,8 @@
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                             -->
-                            <generateApis>true</generateApis>
+                            <generateApis>false</generateApis>
+                            <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>
                                 <!-- RestController implementation is provided by Petclinic developers -->
                                 <interfaceOnly>true</interfaceOnly>

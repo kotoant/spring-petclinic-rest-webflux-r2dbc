@@ -28,9 +28,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * @author Vitaliy Fedoriv
@@ -45,57 +48,77 @@ public class PetRestController implements PetsApi {
 
     private final PetMapper petMapper;
 
-    public PetRestController(ClinicService clinicService, PetMapper petMapper) {
+    private final Scheduler scheduler;
+
+    public PetRestController(ClinicService clinicService, PetMapper petMapper, Scheduler scheduler) {
         this.clinicService = clinicService;
         this.petMapper = petMapper;
+        this.scheduler = scheduler;
     }
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    public ResponseEntity<PetDto> getPet(Integer petId) {
-        PetDto pet = petMapper.toPetDto(this.clinicService.findPetById(petId));
-        if (pet == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(pet, HttpStatus.OK);
+    public Mono<ResponseEntity<PetDto>> getPet(Integer petId) {
+        return wrapBlockingCall(() -> {
+            PetDto pet = petMapper.toPetDto(this.clinicService.findPetById(petId));
+            if (pet == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(pet, HttpStatus.OK);
+        });
     }
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    public ResponseEntity<List<PetDto>> listPets() {
-        List<PetDto> pets = new ArrayList<>(petMapper.toPetsDto(this.clinicService.findAllPets()));
-        if (pets.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(pets, HttpStatus.OK);
+    public Mono<ResponseEntity<List<PetDto>>> listPets() {
+        return wrapBlockingCall(() -> {
+            List<PetDto> pets = new ArrayList<>(petMapper.toPetsDto(this.clinicService.findAllPets()));
+            if (pets.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(pets, HttpStatus.OK);
+        });
     }
 
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
-    public ResponseEntity<PetDto> updatePet(Integer petId, PetDto petDto) {
-        Pet currentPet = this.clinicService.findPetById(petId);
-        if (currentPet == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        currentPet.setBirthDate(petDto.getBirthDate());
-        currentPet.setName(petDto.getName());
-        currentPet.setType(petMapper.toPetType(petDto.getType()));
-        this.clinicService.savePet(currentPet);
-        return new ResponseEntity<>(petMapper.toPetDto(currentPet), HttpStatus.OK);
+    public Mono<ResponseEntity<PetDto>> updatePet(Integer petId, PetDto petDto) {
+        return wrapBlockingCall(() -> {
+            Pet currentPet = this.clinicService.findPetById(petId);
+            if (currentPet == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            currentPet.setBirthDate(petDto.getBirthDate());
+            currentPet.setName(petDto.getName());
+            currentPet.setType(petMapper.toPetType(petDto.getType()));
+            this.clinicService.savePet(currentPet);
+            return new ResponseEntity<>(petMapper.toPetDto(currentPet), HttpStatus.OK);
+        });
     }
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Transactional
     @Override
-    public ResponseEntity<PetDto> deletePet(Integer petId) {
-        Pet pet = this.clinicService.findPetById(petId);
-        if (pet == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        this.clinicService.deletePet(pet);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public Mono<ResponseEntity<PetDto>> deletePet(Integer petId) {
+        return wrapBlockingCall(() -> {
+            Pet pet = this.clinicService.findPetById(petId);
+            if (pet == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            this.clinicService.deletePet(pet);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        });
     }
 
+    private <T> Mono<T> wrapBlockingCall(Callable<T> callable) {
+        return Mono.fromCallable(callable).subscribeOn(scheduler);
+    }
 
+    private Mono<Void> wrapBlockingCall(Runnable runnable) {
+        return wrapBlockingCall(() -> {
+            runnable.run();
+            return null;
+        });
+    }
 }
