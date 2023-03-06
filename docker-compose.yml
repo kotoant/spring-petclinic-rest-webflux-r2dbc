@@ -30,21 +30,26 @@ services:
         condition: service_healthy
 
   pet-clinic:
-    image: kotoant/spring-petclinic-rest-webflux-jdbc
+    image: kotoant/spring-petclinic-rest-webflux-r2dbc
     cpus: 4
     mem_limit: 4096m
     ports:
       - "9966:9966"
     command: >
-      --spring.profiles.active=postgresql,spring-data-jpa,project-loom
+      --spring.profiles.active=postgresql,jdbc
       --spring.datasource.url=jdbc:postgresql://postgres/petclinic
       --spring.datasource.hikari.connection-test-query='select 1'
       --spring.datasource.hikari.connection-timeout=30000
       --spring.datasource.hikari.idle-timeout=300000
       --spring.datasource.hikari.max-lifetime=1800000
       --spring.datasource.hikari.maximum-pool-size=95
-      --spring.datasource.hikari.minimum-idle=10
+      --spring.datasource.hikari.minimum-idle=0
       --spring.datasource.hikari.validation-timeout=5000
+      --spring.r2dbc.url=r2dbc:pool:postgresql://postgres:5432/petclinic?connectTimeout=PT15S&initialSize=10&maxSize=95&maxLifeTime=PT10M&maxIdleTime=PT5M&maxAcquireTime=PT30S&maxCreateConnectionTime=PT30S&validationQuery=select%201
+      --spring.r2dbc.username=petclinic
+      --spring.r2dbc.password=petclinic
+      --spring.r2dbc.properties.preparedStatementCacheQueries=256
+      --spring.r2dbc.properties.options=idle_in_transaction_session_timeout=30000;
     depends_on:
       postgres:
         condition: service_healthy

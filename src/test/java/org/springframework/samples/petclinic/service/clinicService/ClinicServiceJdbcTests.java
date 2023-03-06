@@ -26,7 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
  * @see AbstractClinicServiceTests AbstractClinicServiceTests for more details. </p>
  */
 @SpringBootTest
-@ActiveProfiles({"jdbc", "hsqldb"})
+@ActiveProfiles({"jdbc", "h2"})
 class ClinicServiceJdbcTests extends AbstractClinicServiceTests {
 
 }

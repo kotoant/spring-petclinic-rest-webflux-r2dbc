@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.model;
+package org.springframework.samples.petclinic.r2dbc;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import org.springframework.samples.petclinic.model.Visit;
+import reactor.core.publisher.Mono;
 
 /**
- * @author Juergen Hoeller
- *         Can be Cat, Dog, Hamster...
+ * Repository class for <code>Visit</code> domain objects
  */
-@Entity
-@Table(name = "types")
-public class PetType extends NamedEntity {
-    public PetType() {
-    }
+public interface CustomVisitRepository {
 
-    public PetType(Integer id, String name) {
-        super(id, name);
-    }
+    Mono<Visit> findById(int id);
+
 }

@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
  */
 
 @SpringBootTest
-@ActiveProfiles({"jpa", "hsqldb"})
+@ActiveProfiles({"jpa", "h2"})
 class ClinicServiceJpaTests extends AbstractClinicServiceTests {
 
 }

@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS vets (
 );
 
 CREATE INDEX IF NOT EXISTS idx_vets_last_name ON vets (last_name);
-
+/* [jooq ignore start] */
 ALTER SEQUENCE vets_id_seq RESTART WITH 100;
-
+/* [jooq ignore stop] */
 
 CREATE TABLE IF NOT EXISTS specialties (
   id SERIAL,
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS specialties (
 );
 
 CREATE INDEX IF NOT EXISTS idx_specialties_name ON specialties (name);
-
+/* [jooq ignore start] */
 ALTER SEQUENCE specialties_id_seq RESTART WITH 100;
-
+/* [jooq ignore stop] */
 
 CREATE TABLE IF NOT EXISTS vet_specialties (
   vet_id INT NOT NULL,
@@ -38,9 +38,9 @@ CREATE TABLE IF NOT EXISTS types (
 );
 
 CREATE INDEX IF NOT EXISTS idx_types_name ON types (name);
-
+/* [jooq ignore start] */
 ALTER SEQUENCE types_id_seq RESTART WITH 100;
-
+/* [jooq ignore stop] */
 CREATE TABLE IF NOT EXISTS owners (
   id SERIAL,
   first_name VARCHAR(30),
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS owners (
 );
 
 CREATE INDEX IF NOT EXISTS idx_owners_last_name ON owners (last_name);
-
+/* [jooq ignore start] */
 ALTER SEQUENCE owners_id_seq RESTART WITH 100;
-
+/* [jooq ignore stop] */
 
 CREATE TABLE IF NOT EXISTS pets (
   id SERIAL,
@@ -68,9 +68,9 @@ CREATE TABLE IF NOT EXISTS pets (
 );
 
 CREATE INDEX IF NOT EXISTS idx_pets_name ON pets (name);
-
+/* [jooq ignore start] */
 ALTER SEQUENCE pets_id_seq RESTART WITH 100;
-
+/* [jooq ignore stop] */
 
 CREATE TABLE IF NOT EXISTS visits (
   id SERIAL,
@@ -80,9 +80,9 @@ CREATE TABLE IF NOT EXISTS visits (
   FOREIGN KEY (pet_id) REFERENCES pets(id),
   CONSTRAINT pk_visits PRIMARY KEY (id)
 );
-
+/* [jooq ignore start] */
 ALTER SEQUENCE visits_id_seq RESTART WITH 100;
-
+/* [jooq ignore stop] */
 CREATE TABLE IF NOT EXISTS users (
   username VARCHAR(20) NOT NULL ,
   password VARCHAR(20) NOT NULL ,
@@ -99,4 +99,6 @@ CREATE TABLE IF NOT EXISTS roles (
 );
 
 ALTER TABLE roles ADD CONSTRAINT uni_username_role UNIQUE (role,username);
+/* [jooq ignore start] */
 ALTER SEQUENCE roles_id_seq RESTART WITH 100;
+/* [jooq ignore stop] */

@@ -15,10 +15,13 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+
 import java.time.LocalDate;
 
 /**
@@ -28,12 +31,21 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "visits")
+@org.springframework.data.relational.core.mapping.Table("visits")
 public class Visit extends BaseEntity {
+
+    public Visit(Integer id, Integer petId, LocalDate date, String description) {
+        super(id);
+        this.petId = petId;
+        this.date = date;
+        this.description = description;
+    }
 
     /**
      * Holds value of property date.
      */
     @Column(name = "visit_date", columnDefinition = "DATE")
+    @org.springframework.data.relational.core.mapping.Column("visit_date")
     private LocalDate date;
 
     /**
@@ -41,6 +53,7 @@ public class Visit extends BaseEntity {
      */
     @NotEmpty
     @Column(name = "description")
+    @org.springframework.data.relational.core.mapping.Column("description")
     private String description;
 
     /**
@@ -48,8 +61,11 @@ public class Visit extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "pet_id")
+    @org.springframework.data.annotation.Transient
     private Pet pet;
 
+    @org.springframework.data.relational.core.mapping.Column("pet_id")
+    private int petId;
 
     /**
      * Creates a new instance of Visit for the current date
@@ -58,6 +74,13 @@ public class Visit extends BaseEntity {
         this.date = LocalDate.now();
     }
 
+    public int getPetId() {
+        return petId;
+    }
+
+    public void setPetId(int petId) {
+        this.petId = petId;
+    }
 
     /**
      * Getter for property date.

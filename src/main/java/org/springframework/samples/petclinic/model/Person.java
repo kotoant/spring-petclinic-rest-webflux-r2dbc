@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-
 import jakarta.validation.constraints.NotEmpty;
 
 /**
@@ -29,10 +28,12 @@ import jakarta.validation.constraints.NotEmpty;
 public class Person extends BaseEntity {
 
     @Column(name = "first_name")
+    @org.springframework.data.relational.core.mapping.Column("first_name")
     @NotEmpty
     protected String firstName;
 
     @Column(name = "last_name")
+    @org.springframework.data.relational.core.mapping.Column("last_name")
     @NotEmpty
     protected String lastName;
 

@@ -50,14 +50,14 @@ Our issue tracker is available here: https://github.com/spring-petclinic/spring-
 
 ## Database configuration
 
-In its default configuration, Petclinic uses an in-memory database (HSQLDB) which
+In its default configuration, Petclinic uses an in-memory database (H2) which
 gets populated at startup with data.
 A similar setups is provided for MySql and PostgreSQL in case a persistent database configuration is needed.
 To run petclinic locally using persistent database, it is needed to change profile defined in application.properties file.
 
-For MySQL database, it is needed to change param "hsqldb" to "mysql" in string
+For MySQL database, it is needed to change param "h2" to "mysql" in string
 ```
-spring.profiles.active=hsqldb,spring-data-jpa
+spring.profiles.active=h2,spring-data-jpa
 ```
  defined in application.properties file.
 
@@ -79,9 +79,9 @@ You may also start a MySql database with docker:
 docker run --name mysql-petclinic -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:3306 mysql:5.7.8
 ```
 
-For PostgeSQL database, it is needed to change param "hsqldb" to "postgresql" in string
+For PostgeSQL database, it is needed to change param "h2" to "postgresql" in string
 ```
-spring.profiles.active=hsqldb,spring-data-jpa
+spring.profiles.active=h2,spring-data-jpa
 ```
  defined in application.properties file.
 

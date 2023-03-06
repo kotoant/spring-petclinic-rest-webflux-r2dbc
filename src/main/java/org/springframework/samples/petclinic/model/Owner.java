@@ -15,15 +15,24 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.data.annotation.Transient;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotEmpty;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -35,21 +44,26 @@ import java.util.*;
  */
 @Entity
 @Table(name = "owners")
+@org.springframework.data.relational.core.mapping.Table("owners")
 public class Owner extends Person {
     @Column(name = "address")
+    @org.springframework.data.relational.core.mapping.Column
     @NotEmpty
     private String address;
 
     @Column(name = "city")
+    @org.springframework.data.relational.core.mapping.Column
     @NotEmpty
     private String city;
 
     @Column(name = "telephone")
+    @org.springframework.data.relational.core.mapping.Column
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
     private String telephone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @Transient
     private Set<Pet> pets;
 
 
@@ -147,3 +161,4 @@ public class Owner extends Person {
             .toString();
     }
 }
+
