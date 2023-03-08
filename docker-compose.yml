@@ -33,6 +33,8 @@ services:
     image: kotoant/spring-petclinic-rest-webflux-r2dbc
     cpus: 4
     mem_limit: 4096m
+    volumes:
+      - ./tmp:/tmp
     ports:
       - "9966:9966"
     command: >

@@ -336,6 +336,7 @@
                         <mainClass>org.springframework.samples.petclinic.PetClinicApplication</mainClass>
                         <jvmFlags>
                             <jvmFlag>--enable-preview</jvmFlag>
+                            <jvmFlag>-XX:StartFlightRecording:filename=/tmp/recording.jfr,dumponexit=true</jvmFlag>
                         </jvmFlags>
                     </container>
                 </configuration>
