@@ -5,64 +5,111 @@ import {scenario} from 'k6/execution';
 export const options = {
     scenarios: {
         petclinic: {
-            executor: 'ramping-arrival-rate',
+            // executor: 'ramping-arrival-rate',
+            //
+            // // Our test with at a rate of `startRate` iterations started per `timeUnit` (e.g second).
+            // startRate: 10,
+            //
+            // // It should start `startRate` iterations per `timeUnit`
+            // timeUnit: '1s',
 
-            // Our test with at a rate of `startRate` iterations started per `timeUnit` (e.g second).
-            startRate: 10,
+            // // It should preallocate `preAllocatedVUs` VUs before starting the test.
+            // preAllocatedVUs: 1000,
+            //
+            // // It is allowed to spin up to `maxVUs` maximum VUs in order to sustain the defined
+            // // constant arrival rate.
+            // maxVUs: 10000,
 
-            // It should start `startRate` iterations per `timeUnit`
-            timeUnit: '1s',
+            // stages: [
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 10, duration: '20s' },
+            //
+            //     // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 50, duration: '1m' },
+            //
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 50, duration: '1m' },
+            //
+            //     // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 60, duration: '1m' },
+            //
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 60, duration: '1m' },
+            //
+            //     // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 70, duration: '1m' },
+            //
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 70, duration: '1m' },
+            //
+            //     // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 80, duration: '1m' },
+            //
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 80, duration: '1m' },
+            //
+            //     // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 90, duration: '1m' },
+            //
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 90, duration: '1m' },
+            //
+            //     // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 100, duration: '1m' },
+            //
+            //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+            //     { target: 100, duration: '1m' },
+            //
+            //     // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
+            //     { target: 0, duration: '1m' },
+            // ],
 
-            // It should preallocate `preAllocatedVUs` VUs before starting the test.
-            preAllocatedVUs: 1000,
-
-            // It is allowed to spin up to `maxVUs` maximum VUs in order to sustain the defined
-            // constant arrival rate.
-            maxVUs: 10000,
-
+            executor: 'ramping-vus',
+            startVUs: 0,
             stages: [
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 10, duration: '20s' },
+                { target: 100, duration: '20s' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 50, duration: '1m' },
+                { target: 200, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 50, duration: '1m' },
+                { target: 200, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 60, duration: '1m' },
+                { target: 300, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 60, duration: '1m' },
+                { target: 300, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 70, duration: '1m' },
+                { target: 400, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 70, duration: '1m' },
+                { target: 400, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 80, duration: '1m' },
+                { target: 500, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 80, duration: '1m' },
+                { target: 500, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 90, duration: '1m' },
+                { target: 600, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 90, duration: '1m' },
+                { target: 600, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 100, duration: '1m' },
+                { target: 700, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 100, duration: '1m' },
+                { target: 700, duration: '1m' },
 
                 // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 0, duration: '1m' },
             ],
+            gracefulRampDown: '0s',
         },
     },
 };

@@ -37,7 +37,10 @@ services:
       - "9966:9966"
     command: >
       --spring.profiles.active=postgresql,jdbc
-      --spring.datasource.url=jdbc:postgresql://postgres/petclinic
+      --spring.datasource.url=jdbc:postgresql://35.228.146.134:5432/petclinic
+      --spring.datasource.username=petclinic
+      --spring.datasource.password=petclinic
+      --spring.sql.init.mode=always
       --spring.datasource.hikari.connection-test-query='select 1'
       --spring.datasource.hikari.connection-timeout=30000
       --spring.datasource.hikari.idle-timeout=300000
@@ -45,7 +48,7 @@ services:
       --spring.datasource.hikari.maximum-pool-size=95
       --spring.datasource.hikari.minimum-idle=0
       --spring.datasource.hikari.validation-timeout=5000
-      --spring.r2dbc.url=r2dbc:pool:postgresql://postgres:5432/petclinic?connectTimeout=PT15S&initialSize=10&maxSize=95&maxLifeTime=PT10M&maxIdleTime=PT5M&maxAcquireTime=PT30S&maxCreateConnectionTime=PT30S&validationQuery=select%201
+      --spring.r2dbc.url=r2dbc:pool:postgresql://35.228.146.134:5432/petclinic?connectTimeout=PT15S&initialSize=10&maxSize=380&maxLifeTime=PT10M&maxIdleTime=PT5M&maxAcquireTime=PT30S&maxCreateConnectionTime=PT30S&validationQuery=select%201
       --spring.r2dbc.username=petclinic
       --spring.r2dbc.password=petclinic
       --spring.r2dbc.properties.preparedStatementCacheQueries=256
